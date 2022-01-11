@@ -6,6 +6,7 @@ import { Config, Global } from '../extension'
 import { ExtractInfo } from './types'
 import { CurrentFile } from './CurrentFile'
 import { changeCase } from '~/utils/changeCase'
+import { dirname } from 'path/posix'
 
 export function generateKeyFromText(text: string, filepath?: string, reuseExisting = false, usedKeys: string[] = []): string {
   let key: string | undefined
@@ -40,6 +41,11 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
     key = key
       .replace('{fileName}', basename(filepath))
       .replace('{fileNameWithoutExt}', basename(filepath, extname(filepath)))
+  }
+
+  if (filepath && key.includes('dirName')) {
+    key = key
+      .replace('{dirName}', dirname(filepath))
   }
 
   key = changeCase(key, Config.keygenStyle).trim()
