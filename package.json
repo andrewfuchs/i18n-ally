@@ -905,6 +905,7 @@
         },
         "i18n-ally.namespace": {
           "type": "boolean",
+          "default": true,
           "description": "%config.namespace%"
         },
         "i18n-ally.pathMatcher": {
@@ -1151,17 +1152,17 @@
         },
         "i18n-ally.extract.keyPrefix": {
           "type": "string",
-          "default": "",
+          "default": "{dirName}.",
           "description": "%config.key_prefix%"
         },
         "i18n-ally.extract.keyMaxLength": {
           "type": "number",
-          "default": null,
+          "default": 128,
           "description": "%config.key_max_length%"
         },
         "i18n-ally.extract.targetPickingStrategy": {
           "type": "string",
-          "default": "none",
+          "default": "file-previous",
           "enum": [
             "none",
             "most-similar",

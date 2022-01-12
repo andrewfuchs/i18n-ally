@@ -1,4 +1,4 @@
-import { basename, extname } from 'path'
+import { basename, extname, dirname } from 'path'
 import { TextDocument, window } from 'vscode'
 import { nanoid } from 'nanoid'
 import limax from 'limax'
@@ -6,7 +6,6 @@ import { Config, Global } from '../extension'
 import { ExtractInfo } from './types'
 import { CurrentFile } from './CurrentFile'
 import { changeCase } from '~/utils/changeCase'
-import { dirname } from 'path/posix'
 
 export function generateKeyFromText(text: string, filepath?: string, reuseExisting = false, usedKeys: string[] = []): string {
   let key: string | undefined
@@ -45,7 +44,7 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
 
   if (filepath && key.includes('dirName')) {
     key = key
-      .replace('{dirName}', dirname(filepath))
+      .replace('{dirName}', dirname(filepath).split("/").pop() || basename(filepath))
   }
 
   key = changeCase(key, Config.keygenStyle).trim()

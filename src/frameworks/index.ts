@@ -23,12 +23,14 @@ import GlobalizeFramework from './globalize'
 import UI5Framework from './ui5'
 import NextTranslateFramework from './next-translate'
 import PhpGettextFramework from './php-gettext'
-import GeneralFramework from './general'
+// import GeneralFramework from './general'
 import LinguiFramework from './lingui'
 import JekyllFramework from './jekyll'
 import FluentVueSFCFramework from './fluent-vue-sfc'
+import HappyReturnsFramework from './happyreturns'
 import i18n from '~/i18n'
 import { Log } from '~/utils'
+
 
 export * from './base'
 
@@ -60,11 +62,14 @@ export const frameworks: Framework[] = [
   new PhpGettextFramework(),
   new LinguiFramework(),
   new JekyllFramework(),
-  new GeneralFramework(),
+  // new GeneralFramework(),
 
   // Vue SFC and FluentVue SFC should be the last ones
   new VueSFCFramework(),
   new FluentVueSFCFramework(),
+
+  //custom framework for WorldReady
+  new HappyReturnsFramework()
 ]
 
 export function getFramework(id: string): Framework | undefined {
