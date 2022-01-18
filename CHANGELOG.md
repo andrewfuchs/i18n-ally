@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.3](https://github.com/lokalise/i18n-ally/compare/v2.8.1...v2.8.3) (2022-01-18)
+
+
+### 🐞 Bug Fixes
+
+* i18next greedy namespace regex ([533d16a](https://github.com/lokalise/i18n-ally/commit/533d16a32dc90ab27c4c6743c164a0c69d1533be))
+
 ### [2.8.2](https://github.com/lokalise/i18n-ally/compare/v2.8.1...v2.8.2) (2022-01-14)
 
 
