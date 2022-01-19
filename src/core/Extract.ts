@@ -1,11 +1,11 @@
 import { basename, extname, dirname } from 'path'
 import { TextDocument, window } from 'vscode'
 import { nanoid } from 'nanoid'
-import limax from 'limax'
 import { Config, Global } from '../extension'
 import { ExtractInfo } from './types'
 import { CurrentFile } from './CurrentFile'
 import { changeCase } from '~/utils/changeCase'
+import { camelCase } from 'lodash'
 
 export function generateKeyFromText(text: string, filepath?: string, reuseExisting = false, usedKeys: string[] = []): string {
   let key: string | undefined
@@ -28,8 +28,7 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
   }
   else {
     text = text.replace(/\$/g, '')
-    key = limax(text, { separator: Config.preferredDelimiter, tone: false })
-      .slice(0, Config.extractKeyMaxLength ?? Infinity)
+    key = camelCase(text).slice(0, Config.extractKeyMaxLength ?? Infinity)
   }
 
   const keyPrefix = Config.keyPrefix

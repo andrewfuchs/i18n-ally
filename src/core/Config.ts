@@ -436,7 +436,7 @@ export class Config {
   }
 
   static get keygenStrategy() {
-    return this.getConfig<string>('extract.keygenStrategy') ?? 'slug'
+    return this.getConfig<string>('extract.keygenStrategy') ?? 'camel'
   }
 
   static get keygenStyle(): CaseStyles {

@@ -1129,8 +1129,9 @@
         },
         "i18n-ally.extract.keygenStrategy": {
           "type": "string",
-          "default": "slug",
+          "default": "camel",
           "enum": [
+            "camel",
             "slug",
             "random",
             "empty"

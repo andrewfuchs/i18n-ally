@@ -58,6 +58,8 @@ export async function BatchHardStringExtraction(...args: any[]) {
     if (!document)
       continue
 
+    const selections = document === window?.activeTextEditor?.document && window?.activeTextEditor?.selections
+
     try {
       const result = await DetectHardStrings(document, false)
       Log.info(`📤 Extracting [${result?.length || 0}] ${document.uri.fsPath}`)
@@ -65,10 +67,19 @@ export async function BatchHardStringExtraction(...args: any[]) {
         continue
 
       const usedKeys: string[] = []
-
       await extractHardStrings(
         document,
-        result.map((i) => {
+        result.filter((i) => {
+          if (!selections || !selections?.length)
+            return true
+          for (const selection of selections) {
+            const selectionStart = window?.activeTextEditor?.document?.offsetAt(selection.start) ?? i.start
+            const selectionEnd = window?.activeTextEditor?.document?.offsetAt(selection.end) ?? i.end
+            if (i.start >= selectionStart && i.end <= selectionEnd)
+              return true
+          }
+          return false
+        }).map((i) => {
           const options = DetectionResultToExtraction(i, document)
 
           if (options.rawText && !options.text) {
