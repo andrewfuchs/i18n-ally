@@ -38,39 +38,39 @@ class HappyReturnsFramework extends Framework {
 
   // for visualize the regex, you can use https://regexper.com/
   usageMatchRegex = [
-    //new MessageFormat({id: key})
-    '[^\\w\\d](?:MessageFormat)\\(.*?[\'"`]?id[\'"`]?:\\s*[\'"`]({key})[\'"`]',
-    // <Message id="key" />
-    '<Message\\s*id[\'"`]=\\s*[\'"`]({key})[\'"`]',
+    //new MessageFormat({id: 'key'})
+    /MessageFormat\([^\(\)']+'([^']+)/g,
+    // <Message id='key' />
+    /<Message[^<>']+'([^']+)/g,
   ]
 
   refactorTemplates(keypath: string, args?: string[], document?: TextDocument, detection?: DetectionResult): string[] {
     //return [JSON.stringify(detection)]
 
     let params = `'${keypath}'`
-    switch (detection?.source) {
-        case 'jsx-text': {
-          let formatArgs = ''
-          if (args?.length){
-            formatArgs = args.map(arg => `${arg}=${arg}`).join("\n")
-          }
-          return [`<Message id=${params} ${formatArgs}/>`]
-        }
-        case 'js-string': {
-          let formatArgs = ''
-          if (args?.length){
-            formatArgs = args.join(",\n")
-          }
-          return [`new MessageFormat(worldready, ${params}).format(${formatArgs})`]
-        }
-        default: {
-          let formatArgs = ''
-          if (args?.length){
-            formatArgs = args.join(",\n")
-          }
-          return [`new MessageFormat(worldready, ${params}).format(${formatArgs})`]
-        }
+    let messageTag = ''
+    {
+      let formatArgs = ''
+      if (args?.length)
+        formatArgs = args.map(arg => `${arg}=${arg}`).join('\n')
+      messageTag = `<Message id=${params} ${formatArgs}/>`
     }
+    let messageCall = ''
+    {
+      let formatArgs = ''
+      if (args?.length)
+        formatArgs = args.join(',\n')
+      messageCall = `new MessageFormat(worldready, {id: ${params}}).format(${formatArgs})`
+    }
+    switch (detection?.source) {
+      case 'jsx-text': {
+        return [messageTag, messageCall]
+      }
+      case 'js-string': {
+        return [messageCall, messageTag]
+      }
+    }
+    return [messageCall, messageTag]
 
     // if (args?.length)
     //   params += `, [${args.join(', ')}]`
@@ -83,7 +83,7 @@ class HappyReturnsFramework extends Framework {
     //   case 'js-string':
     //     return [`$t(${params})`, `this.$t(${params})`]
     //   case 'js-template':
-      
+
     //   case 'jsx-text':
     //     return ``
     // }
