@@ -27,8 +27,15 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
     key = ''
   }
   else {
-    text = text.replace(/\$/g, '')
-    key = camelCase(text).slice(0, Config.extractKeyMaxLength ?? Infinity)
+    let len = 0
+    const shortenedKey = []
+    const words = text.split(/\s+/g)
+    do {
+      const word = words.shift() || ''
+      len += word.length
+      shortenedKey.push(word)
+    } while (len <= 16 && words?.length)
+    key = camelCase(shortenedKey.join(' '))
   }
 
   const keyPrefix = Config.keyPrefix

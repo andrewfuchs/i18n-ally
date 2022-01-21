@@ -1158,7 +1158,7 @@
         },
         "i18n-ally.extract.keyMaxLength": {
           "type": "number",
-          "default": 128,
+          "default": 24,
           "description": "%config.key_max_length%"
         },
         "i18n-ally.extract.targetPickingStrategy": {
