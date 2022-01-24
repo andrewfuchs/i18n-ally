@@ -1,4 +1,4 @@
-import { Node, Config, Global } from '~/core'
+import { Node, Config } from '~/core'
 
 export class NodeHelper {
   static isSource(node: Node) {
@@ -46,12 +46,11 @@ export class NodeHelper {
   }
 
   static getPathWithoutNamespace(keypath: string, node?: Node, namespace?: string) {
-    if (Global.namespaceEnabled) {
-      namespace = node?.meta?.namespace || namespace
-      if (namespace)
-        return keypath.slice(namespace.length + 1)
-    }
-
-    return keypath
+    // if (Global.namespaceEnabled) {
+    //   namespace = node?.meta?.namespace || namespace
+    //   if (namespace)
+    //     return keypath.slice(namespace.length + 1)
+    // }
+    return keypath.split('.').pop() || keypath
   }
 }

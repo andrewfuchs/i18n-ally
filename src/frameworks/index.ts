@@ -68,8 +68,7 @@ export const frameworks: Framework[] = [
   new VueSFCFramework(),
   new FluentVueSFCFramework(),
 
-  //custom framework for WorldReady
-  new HappyReturnsFramework()
+  new HappyReturnsFramework(),
 ]
 
 export function getFramework(id: string): Framework | undefined {
