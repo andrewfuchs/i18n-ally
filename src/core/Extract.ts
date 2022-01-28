@@ -7,7 +7,7 @@ import { CurrentFile } from './CurrentFile'
 import { changeCase } from '~/utils/changeCase'
 import { camelCase } from 'lodash'
 
-export function generateKeyFromText(text: string, filepath?: string, reuseExisting = false, usedKeys: string[] = []): string {
+export function generateKeyFromText(text: string, filepath?: string, reuseExisting = false, usedKeys: Record<string, string> = {}): string {
   let key: string | undefined
 
   // already existed, reuse the key
@@ -59,11 +59,15 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
   if (!key)
     key = 'key'
 
-  if (key === Global.loader.searchKeyForTranslations(text))
+  const existingKey = Global.loader.searchKeyForTranslations(text)
+  if (key === existingKey)
+    return key
+
+  if (usedKeys[key] === text)
     return key
 
   // suffix with a auto increment number if same key
-  if (usedKeys.includes(key) || CurrentFile.loader.getNodeByKey(key)) {
+  if (usedKeys[key] || CurrentFile.loader.getNodeByKey(key)) {
     const originalKey = key
     let num = 0
 
@@ -71,7 +75,7 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
       key = `${originalKey}${Config.preferredDelimiter}${num}`
       num += 1
     } while (
-      usedKeys.includes(key) || CurrentFile.loader.getNodeByKey(key, false)
+      usedKeys[key] || CurrentFile.loader.getNodeByKey(key, false)
     )
   }
 

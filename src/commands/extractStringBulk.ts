@@ -66,7 +66,7 @@ export async function BatchHardStringExtraction(...args: any[]) {
       if (!result)
         continue
 
-      const usedKeys: string[] = []
+      const usedKeys: Record<string, string> = {}
       await extractHardStrings(
         document,
         result.filter((i) => {
@@ -98,7 +98,7 @@ export async function BatchHardStringExtraction(...args: any[]) {
             return undefined
           }
 
-          usedKeys.push(keypath)
+          usedKeys[keypath] = rawText || text
 
           return {
             range,
