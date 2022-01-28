@@ -12,11 +12,11 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
 
   // already existed, reuse the key
   // mostly for auto extraction
-  if (reuseExisting) {
-    key = Global.loader.searchKeyForTranslations(text)
-    if (key)
-      return key
-  }
+  // if (reuseExisting) {
+  //   key = Global.loader.searchKeyForTranslations(text)
+  //   if (key)
+  //     return key
+  // }
 
   // keygent
   const keygenStrategy = Config.keygenStrategy
@@ -58,6 +58,9 @@ export function generateKeyFromText(text: string, filepath?: string, reuseExisti
   // some symbol can't convert to alphabet correctly, apply a default key to it
   if (!key)
     key = 'key'
+
+  if (key === Global.loader.searchKeyForTranslations(text))
+    return key
 
   // suffix with a auto increment number if same key
   if (usedKeys.includes(key) || CurrentFile.loader.getNodeByKey(key)) {
